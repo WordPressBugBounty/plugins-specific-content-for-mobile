@@ -7,7 +7,7 @@ Author URI: https://josemortellaro.com/
 Plugin URI: https://specific-content-for-mobile.com/
 Text Domain: specific-content-for-mobile
 Domain Path: /languages/
-Version: 0.2.4
+Version: 0.2.5
 */
 /*  This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,8 +24,15 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 //Definitions.
 define( 'EOS_SCFM_PLUGIN_DIR',untrailingslashit( dirname( __FILE__ ) ) );
 define( 'EOS_SCFM_PLUGIN_URL', untrailingslashit( plugins_url( '', __FILE__ ) ) );
-define( 'EOS_SCFM_PLUGIN_VERSION','0.2.4' );
+define( 'EOS_SCFM_PLUGIN_VERSION','0.2.5' );
 define( 'EOS_SCFM_PLUGIN_BASE_NAME',untrailingslashit( plugin_basename( __FILE__ ) ) );
+
+if( isset( $_GET['scfm-mobile'] ) ) {
+	unset( $_GET['scfm-mobile'] );
+}
+if( isset( $_REQUEST['scfm-mobile'] ) ) {
+	unset( $_REQUEST['scfm-mobile'] );
+}
 
 if( 
 	isset( $_REQUEST['ct_builder'] ) 
@@ -505,9 +512,19 @@ add_filter( 'mod_rewrite_rules', function( $rewrite_rules ) {
 		$scfm_rules .= "<IfModule mod_rewrite.c>\n";
 		$scfm_rules .= "RewriteEngine On\n";
 		$scfm_rules .= "RewriteCond %{HTTP_USER_AGENT} Mobile|Android|Silk/|Kindle|BlackBerry|Opera\ Mini|Opera\ Mobi [NC]\n";
+		$scfm_rules .= "RewriteCond %{REQUEST_METHOD} !=POST\n";
 		$scfm_rules .= "RewriteCond %{QUERY_STRING} !scfm-mobile\n";
+		$scfm_rules .= "RewriteCond %{QUERY_STRING} !wc-ajax\n";
+		$scfm_rules .= "RewriteCond %{QUERY_STRING} !^$\n";
 		$scfm_rules .= "RewriteCond %{REQUEST_URI} !\.\n";
 		$scfm_rules .= "RewriteRule ^(.*)$ %{REQUEST_SCHEME}://%{HTTP_HOST}%{REQUEST_URI}\?%{QUERY_STRING}\&scfm-mobile=1 [L,NS,R=301]\n";
+		$scfm_rules .= "RewriteCond %{HTTP_USER_AGENT} Mobile|Android|Silk/|Kindle|BlackBerry|Opera\ Mini|Opera\ Mobi [NC]\n";
+		$scfm_rules .= "RewriteCond %{REQUEST_METHOD} !=POST\n";
+		$scfm_rules .= "RewriteCond %{QUERY_STRING} !scfm-mobile\n";
+		$scfm_rules .= "RewriteCond %{QUERY_STRING} !wc-ajax\n";
+		$scfm_rules .= "RewriteCond %{QUERY_STRING} ^$\n";
+		$scfm_rules .= "RewriteCond %{REQUEST_URI} !\.\n";
+		$scfm_rules .= "RewriteRule ^(.*)$ %{REQUEST_SCHEME}://%{HTTP_HOST}%{REQUEST_URI}\?scfm-mobile=1 [L,NS,R=301]\n";
 		$scfm_rules .= "</IfModule>\n";
 		$scfm_rules .= "# END Specific Content For Mobile\n\n";
 	}

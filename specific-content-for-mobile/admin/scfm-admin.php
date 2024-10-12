@@ -1,11 +1,11 @@
 <?php
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
-//Require file including information to integrate other plugins metadata synchronization
+// Require file including information to integrate other plugins metadata synchronization.
 require_once EOS_SCFM_PLUGIN_DIR.'/inc/scfm-integration-meta.php';
 $scfm_post_types = eos_scfm_post_types();
 
-//It checks if the theme supports the blog page mobile version
+// It checks if the theme supports the blog page mobile version.
 function eos_scfm_is_posts_page_supported( $feature ){
 	$arr = get_theme_support( 'specific_content_form_mobile' );
 	if( is_array( $arr ) ){
@@ -16,7 +16,7 @@ function eos_scfm_is_posts_page_supported( $feature ){
 }
 
 add_filter( 'load_textdomain_mofile', 'eos_scfm_load_translation_file',99,2 ); //loads plugin translation files
-//Filter function to read plugin translation files
+// Filter function to read plugin translation files.
 function eos_scfm_load_translation_file( $mofile, $domain ) {
 	if ( 'specific-content-for-mobile' === $domain ) {
 		$loc = function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
@@ -27,7 +27,7 @@ function eos_scfm_load_translation_file( $mofile, $domain ) {
 load_plugin_textdomain( 'specific-content-for-mobile',false,EOS_SCFM_PLUGIN_DIR.'/languages/' );
 
 add_action( 'in_admin_header','eos_scfm_remove_mobile_permalink' );
-//It removes the permalink for the mobile version
+// It removes the permalink for the mobile version.
 function eos_scfm_remove_mobile_permalink(){
 	global $post;
 	if( is_object( $post ) ){
@@ -38,13 +38,13 @@ function eos_scfm_remove_mobile_permalink(){
 	}
 }
 
-add_action( 'admin_enqueue_scripts','eos_scfm_enqueue_scripts' );
-//It enqueues the admin scripts and style
+add_action( 'admin_enqueue_scripts', 'eos_scfm_enqueue_scripts' );
+// It enqueues the admin scripts and style.
 function eos_scfm_enqueue_scripts(){
 	wp_enqueue_style( 'specific-content-for-mobile',EOS_SCFM_PLUGIN_URL.'/admin/assets/css/scfm-backend.css' );
 }
 add_action( 'admin_action_eos_scfm_duplicate_post_as_draft', 'eos_scfm_duplicate_post_as_draft' );
-//It creates post duplicate as a draft and redirects then to the edit post screen
+// It creates post duplicate as a draft and redirects then to the edit post screen.
 function eos_scfm_duplicate_post_as_draft(){
 	global $wpdb;
 	if (! ( isset( $_GET['post'] ) || ( isset($_REQUEST['action']) && 'eos_scfm_duplicate_post_as_draft' === $_REQUEST['action'] ) ) ) {
@@ -128,7 +128,7 @@ function eos_scfm_duplicate_post_as_draft(){
 add_filter( 'post_row_actions', 'eos_scfm_duplicate_post_link', 10, 2 );
 add_filter( 'page_row_actions', 'eos_scfm_duplicate_post_link', 10, 2 );
 
-//Add the duplicate link to action list for post_row_actions
+// Add the duplicate link to action list for post_row_actions.
 function eos_scfm_duplicate_post_link( $actions,$post ) {
 	if ( current_user_can('edit_posts') && in_array( $post->post_type,eos_scfm_post_types() ) ){
 		$mobile_post_id = eos_scfm_related_mobile_id( $post->ID );
@@ -159,8 +159,8 @@ function eos_scfm_duplicate_post_link( $actions,$post ) {
 	return $actions;
 }
 
-add_filter( 'display_post_states','eos_scfm_post_status',2,99 );
-//It adds the mobile version status in the posts table
+add_filter( 'display_post_states','eos_scfm_post_status', 2, 99 );
+// It adds the mobile version status in the posts table.
 function eos_scfm_post_status( $states,$post ){
 	$desktop_post_id = eos_scfm_related_desktop_id( $post->ID,true );
 	if( $desktop_post_id ){
@@ -178,7 +178,7 @@ foreach( eos_scfm_post_types() as $post_type ){
 	add_action( 'manage_'.$post_type.'s_custom_column', 'eos_scfm_post_columns_content', 10, 2 );
 }
 
-//Add new column to posts table list
+// Add new column to posts table list.
 function eos_scfm_post_columns_head( $columns ){
 	$cb = $columns['cb'];
 	unset( $columns['cb'] );
@@ -216,7 +216,7 @@ function eos_scfm_post_columns_content( $column_name, $post_ID ) {
     }
 }
 add_action( 'wp_trash_post','eos_scfm_before_post_deletion' );
-//it manages the mobile and desktop versions when a post or page is deleted
+// It manages the mobile and desktop versions when a post or page is deleted.
 function eos_scfm_before_post_deletion( $post_id ){
 	static $called = false;
 	if( $called ) return;
@@ -242,7 +242,7 @@ function eos_scfm_before_post_deletion( $post_id ){
 }
 
 add_action( 'untrash_post','eos_scfm_after_post_untrash' );
-//It reassign the mobile ID to the desktop post if no other mobile versions were created
+// It reassign the mobile ID to the desktop post if no other mobile versions were created.
 function eos_scfm_after_post_untrash( $post_id ){
 	static $called = false;
 	if( $called ) return;
@@ -265,7 +265,7 @@ function eos_scfm_after_post_untrash( $post_id ){
 	}
 }
 add_action( 'add_meta_boxes', 'eos_scfm_add_meta_box' );
-//It adds the meta box to the page and post screen
+// It adds the meta box to the page and post screen.
 function eos_scfm_add_meta_box(){
     add_meta_box(
         'specific-content-for-mobile',
@@ -276,17 +276,17 @@ function eos_scfm_add_meta_box(){
         'high'
     );
 }
-//Callback for the metabox
+// Callback for the metabox.
 function eos_scfm_metabox_callback( $post ){
 	$desktop_id = eos_scfm_related_desktop_id( $post->ID );
 	$posts = get_posts( array( 'post_type' => $post->post_type,'posts_per_page' => -1,'post_status' => 'any' ) );
 	wp_nonce_field( 'eos_scfm_metabox','eos_scfm_metabox' );
-  wp_enqueue_script( 'scfm',EOS_SCFM_PLUGIN_URL.'/admin/assets/js/scfm-admin-single.js',array( 'jquery','suggest' ),EOS_SCFM_PLUGIN_VERSION,true );
+  	wp_enqueue_script( 'scfm',EOS_SCFM_PLUGIN_URL.'/admin/assets/js/scfm-admin-single.js',array( 'jquery','suggest' ),EOS_SCFM_PLUGIN_VERSION,true );
 	wp_localize_script( 'scfm','scfm',array( 'id' => $post->ID,'post_type' => $post->post_type,'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	$headers = function_exists( 'getallheaders' ) ? getallheaders() : false;
 	if( $headers ) echo '<input type="hidden" id="scfm_headers" name="scfm_headers" value="'.esc_attr( wp_json_encode( $headers ) ).'" />';
 	if( $desktop_id > 0 ){
-		//It's a mobile version
+		// It's a mobile version.
 		$selection_desktop = '<input type="text" class="eos-scfm-suggest-page" value="'.esc_attr( get_the_title( $desktop_id ) ).'" />';
 		$selection_desktop .= '<input type="hidden" name="eos_scfm_desktop_post_id" id="eos_scfm_desktop_post_id" class="eos-scfm-suggest-page-id" value="'.esc_attr( $desktop_id ).'" placeholder="'.__( 'Start typing...','specific-content-for-mobile' ).'" />';
 		?><p>
@@ -302,7 +302,7 @@ function eos_scfm_metabox_callback( $post ){
 		$selection_mobile = '<input type="text" class="eos-scfm-suggest-page" value="'.esc_attr( $mobile_title ).'" placeholder="'.__( 'Start typing...','specific-content-for-mobile' ).'" />';
 		$selection_mobile .= '<input type="hidden" name="eos_scfm_mobile_post_id" id="eos_scfm_mobile_post_id" class="eos-scfm-suggest-page-id" value="'.esc_attr( $mobile_id ).'"/>';
 		if( $mobile_id > 0 ){
-			//It's a desktop version that has a mmobile version
+			// It's a desktop version that has a mmobile version.
 			?><p>
 			<span class="dashicons dashicons-smartphone scfm-meta-mobile"></span>
 			<?php printf( esc_html__( 'Related mobile version: %s','specific-content-for-mobile' ),$selection_mobile ); ?></p>
@@ -317,9 +317,9 @@ function eos_scfm_metabox_callback( $post ){
 	}
 }
 
-add_action( 'save_post', 'eos_scfm_save_metabox',1,2 );
+add_action( 'save_post', 'eos_scfm_save_metabox', 1, 2 );
 
-//Save SCFM meta data
+// Save SCFM meta data.
 function eos_scfm_save_metabox( $post_id, $post ) {
 	do_action( 'scfm_before_save_metabox',$post_id,$post );
 	delete_site_transient( 'scfm_debug' );
@@ -335,7 +335,7 @@ function eos_scfm_save_metabox( $post_id, $post ) {
 	}
 	$options = eos_scfm_get_main_options_array();
 	if( isset( $_POST['eos_scfm_desktop_post_id'] ) ){
-		//$post_id is the ID of a mobile version
+		// $post_id is the ID of a mobile version.
 		$actual_desktop_id = eos_scfm_related_desktop_id( $post_id );
 		if( absint( $_POST['eos_scfm_desktop_post_id'] ) > 0 ){
 			if( $actual_desktop_id > 0 && absint( $_POST['eos_scfm_desktop_post_id'] ) !== $actual_desktop_id ){
@@ -363,13 +363,13 @@ function eos_scfm_save_metabox( $post_id, $post ) {
 			}
 		}
 		else{
-			//We unlink desktop and mobile versions
+			// We unlink desktop and mobile versions.
 			delete_post_meta( $actual_desktop_id,'eos_scfm_mobile_post_id' );
 			delete_post_meta( $post_id,'eos_scfm_desktop_post_id' );
 		}
 	}
 	elseif( isset( $_POST['eos_scfm_mobile_post_id'] ) ){
-		//$post_id is the ID of a desktop version
+		// $post_id is the ID of a desktop version.
 		$actual_mobile_id = eos_scfm_related_mobile_id( $post_id );
 		if( absint( $_POST['eos_scfm_mobile_post_id'] ) > 0 ){
 			if( $actual_mobile_id > 0 && absint( $_POST['eos_scfm_mobile_post_id'] ) !== $actual_mobile_id ){
@@ -400,7 +400,7 @@ function eos_scfm_save_metabox( $post_id, $post ) {
 			}
 		}
 		else{
-			//We unlink desktop and mobile versions
+			// We unlink desktop and mobile versions.
 			delete_post_meta( $actual_mobile_id,'eos_scfm_desktop_post_id' );
 			delete_post_meta( $post_id,'eos_scfm_mobile_post_id' );
 		}
@@ -436,7 +436,7 @@ function eos_scfm_save_metabox( $post_id, $post ) {
 	}
 }
 
-//Debug post, check if there are any issues
+// Debug post, check if there are any issues.
 function scfm_debug_post( $actual_desktop_id ){
 	$url = get_permalink( $actual_desktop_id );
 	if( $url ){
@@ -490,7 +490,7 @@ function scfm_debug_post( $actual_desktop_id ){
 	return false;
 }
 
-//Warn the user if some issues are detected
+// Warn the user if some issues are detected.
 add_action( 'admin_notices',function(){
 	if( defined( 'EPC_VERSION' ) || class_exists( 'Endurance_Page_Cache' ) ){
 		?>
@@ -524,7 +524,7 @@ add_action( 'admin_notices',function(){
 	}
 } );
 
-//Retrieves debugging data from HTML
+// Retrieves debugging data from HTML.
 function scfm_get_debug_from_body( $body ){
 	preg_match( '/eos\-scfm\-d\-(.*)\-device/', $body, $device_match );
 	preg_match( '/eos\-scfm\-t\-(.*)\-timestamp/', $body, $timestamp_match );
@@ -539,7 +539,7 @@ function scfm_get_debug_from_body( $body ){
 }
 
 add_filter( 'plugin_action_links_'.EOS_SCFM_PLUGIN_BASE_NAME,'eos_scfm_plugin_add_settings_link' );
-//It adds a link to the action links in the plugins page
+// It adds a link to the action links in the plugins page.
 function eos_scfm_plugin_add_settings_link( $links ){
     $settings_link = ' | <a class="eos-wh-setts" href="' . esc_url( admin_url( 'admin.php?page=eos_scfm' ) ) . '">'. esc_html__( 'Settings','specific-content-for-mobile' ). '</a>';
     $settings_link .= ' | <a class="eos-wh-setts" href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '">'. esc_html__( 'Pages','specific-content-for-mobile' ). '</a>';
@@ -551,11 +551,11 @@ function eos_scfm_plugin_add_settings_link( $links ){
 
 
 add_action( 'admin_menu','eos_scfm_add_menu_pages' );
-//It adds all needed menu pages
+// It adds all needed menu pages.
 function eos_scfm_add_menu_pages(){
 	add_menu_page( __( 'Specific Content For Mobile','specific-content-for-mobile' ),__( 'Specific Content For Mobile','specific-content-for-mobile' ),'manage_options','eos_scfm','eos_scfm_main_settings_do_page','dashicons-smartphone',60 );
 }
-//It outputs the main settings page
+// It outputs the main settings page.
 function eos_scfm_main_settings_do_page(){
 	if( isset( $_GET['page'] ) && 'eos_scfm' === $_GET['page'] ){
 		wp_enqueue_script( 'specific-content-for-mobile',EOS_SCFM_PLUGIN_URL.'/admin/assets/js/scfm-admin.js',array(),EOS_SCFM_PLUGIN_VERSION,true );
@@ -564,7 +564,7 @@ function eos_scfm_main_settings_do_page(){
 	}
 }
 
-//It prints a table of options given an array
+// It prints a table of options given an array.
 function eos_scfm_options_table( $args ){
 ?>
 	<table class="form-table" role="presentation">
@@ -608,7 +608,7 @@ function eos_scfm_options_table( $args ){
 	</table>
 <?php
 }
-//It displays the save button and related messages
+// It displays the save button and related messages.
 function eos_scfm_save_button(){
 	wp_nonce_field( 'eos_scfm_nonce_saving','eos_scfm_nonce_saving' );
 	$page = isset( $_GET['page'] ) ? $_GET['page'] : '';
@@ -631,7 +631,7 @@ function eos_scfm_ajax_loader_img(){
 foreach( $scfm_post_types as $post_type ){
 	add_action( 'update_'.sanitize_key( $post_type ).'_meta','eos_scfm_manage_metaboxes',9999,4 );
 }
-//It manage metaboxes values according to the plugin options
+// It manage metaboxes values according to the plugin options.
 function eos_scfm_manage_metaboxes( $meta_id,$object_id,$meta_key,$_meta_value ){
 	if( in_array( $meta_key,array( 'eos_scfm_desktop_post_id','eos_scfm_mobile_post_id','_eos_deactive_plugins_key' ) ) ) return;
 	static $called_keys = array();
@@ -662,7 +662,7 @@ function eos_scfm_manage_metaboxes( $meta_id,$object_id,$meta_key,$_meta_value )
 	}
 	update_option( 'eos_scfm_main',$options );
 }
-//Given the meta key, it checks if the post meta is synchronized.
+// Given the meta key, it checks if the post meta is synchronized.
 function eos_scfm_is_meta_key_synchronized( $meta_key,$options ){
 	$meta_integrations = eos_scfm_meta_integration_array( $options );
 	$other_meta = isset( $options['other_meta'] ) ? $options['other_meta'] : array();
@@ -687,7 +687,7 @@ function eos_scfm_is_meta_key_synchronized( $meta_key,$options ){
 
 add_filter( 'bulk_actions-edit-post','eos_scfm_unlink_mobile_versions_bulk_item' );
 add_filter( 'bulk_actions-edit-page','eos_scfm_unlink_mobile_versions_bulk_item' );
-//Add bulk action item in the bulk actions dropdown list to unlink mobile versions.
+// Add bulk action item in the bulk actions dropdown list to unlink mobile versions.
 function eos_scfm_unlink_mobile_versions_bulk_item( $bulk_actions ){
 	$bulk_actions['scfm-unlink-mobile-version'] = __( 'Unlink mobile version','specific-content-for-mobile' );
 	return $bulk_actions;
@@ -695,7 +695,7 @@ function eos_scfm_unlink_mobile_versions_bulk_item( $bulk_actions ){
 
 add_filter( 'handle_bulk_actions-edit-post','eos_scfm_unlink_mobile_versions',10,3 );
 add_filter( 'handle_bulk_actions-edit-page','eos_scfm_unlink_mobile_versions',10,3 );
-//Handler to execute the bulk action to unlink the mobile versions
+// Handler to execute the bulk action to unlink the mobile versions.
 function eos_scfm_unlink_mobile_versions( $redirect_url,$action,$ids ){
 	if( $action === 'scfm-unlink-mobile-version') {
 		$options = eos_scfm_get_main_options_array();
@@ -726,7 +726,7 @@ function eos_scfm_unlink_mobile_versions( $redirect_url,$action,$ids ){
 }
 
 add_action('admin_notices','eos_scfm_admin_notices',999999999999 );
-//Notice after unlinking the mobile versions
+// Notice after unlinking the mobile versions.
 function eos_scfm_admin_notices(){
 	if( isset( $_GET['page'] ) && 'eos_scfm' === $_GET['page'] ){
 		remove_all_actions( 'admin_notices' );
@@ -771,7 +771,7 @@ function eos_scfm_admin_body_class( $classes ){
 }
 
 add_filter( 'preview_post_link','eos_scfm_mobile_preview_post_link',10,2 );
-//Add nonce and preview ID to preview post link in case of mobile
+// Add nonce and preview ID to preview post link in case of mobile.
 function eos_scfm_mobile_preview_post_link( $preview_link, $post ){
 	$desktop_id = eos_scfm_related_desktop_id( $post->ID );
 	if( $desktop_id > 0 ){
@@ -784,20 +784,21 @@ function eos_scfm_mobile_preview_post_link( $preview_link, $post ){
 	return $preview_link;
 }
 
-register_activation_hook( EOS_SCFM_PLUGIN_BASE_NAME,function(){
-	//It sends an ID to the FDP site to update the active number of installations. Thanks to the md5 function the FDP server will not be able to guess the home url, but it understands the plugin was deactivated on an anonymus site.
+register_activation_hook( EOS_SCFM_PLUGIN_BASE_NAME, function(){
+	// It sends an ID to the FDP site to update the active number of installations. Thanks to the md5 function the FDP server will not be able to guess the home url, but it understands the plugin was deactivated on an anonymus site.
 	$args = array( 'headers' => array( 'site_id' => md5( get_home_url() ) ) );
 	wp_remote_get( 'https://stats.josemortellaro.com/scfm/activated/',$args );
 } );
 
-register_deactivation_hook( EOS_SCFM_PLUGIN_BASE_NAME,function(){
-	//It sends an ID to the FDP site to update the active number of installations. Thanks to the md5 function the FDP server will not be able to guess the home url, but it understands tthe plugin was deactivated on an anonymus site.
+register_deactivation_hook( EOS_SCFM_PLUGIN_BASE_NAME, function(){
+	// It sends an ID to the FDP site to update the active number of installations. Thanks to the md5 function the FDP server will not be able to guess the home url, but it understands tthe plugin was deactivated on an anonymus site.
 	$args = array( 'headers' => array( 'site_id' => md5( get_home_url() ) ) );
 	wp_remote_get( 'https://stats.josemortellaro.com/scfm/deactivated/',$args );
 } );
 
-add_filter( 'eos_dp_integration_action_plugins','eos_scfm_add_fdp_integration' );
-//It adds custom ajax actions to the Actions Settings Pages of Freesoul Deactivate Plugins
+
+add_filter( 'eos_dp_integration_action_plugins', 'eos_scfm_add_fdp_integration' );
+// It adds custom ajax actions to the Actions Settings Pages of Freesoul Deactivate Plugins.
 function eos_scfm_add_fdp_integration( $args ){
 		$args['specific-content-for-mobile'] = array(
 			'is_active' => defined( 'EOS_SCFM_PLUGIN_VERSION' ),
@@ -808,12 +809,12 @@ function eos_scfm_add_fdp_integration( $args ){
 		return $args;
 }
 
-//Warning about plugins on mobile
+// Warning about plugins on mobile.
 function eos_scfm_plugins_on_mobile_warning(){
 	if(
-		!defined( 'EOS_DP_VERSION' )
-		&& !class_exists( 'PluginOrganizer' )
-		&& !class_exists( 'Plf_setting' )
+		! defined( 'EOS_DP_VERSION' )
+		&& ! class_exists( 'PluginOrganizer' )
+		&& ! class_exists( 'Plf_setting' )
 	){
 		$active_plugins = get_option( 'active_plugins' );
 		if( $active_plugins ){
@@ -829,8 +830,8 @@ function eos_scfm_plugins_on_mobile_warning(){
 	}
 }
 
-add_action( 'wp_ajax_eos_scfm_dismiss_warnings','eos_scfm_dismiss_warnings' );
-//Clear transient that stores the warnings
+add_action( 'wp_ajax_eos_scfm_dismiss_warnings', 'eos_scfm_dismiss_warnings' );
+// Clear transient that stores the warnings.
 function eos_scfm_dismiss_warnings(){
 	if( isset( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ),'scfm_dismiss_warning_nonce' ) ){
 		delete_site_transient( 'scfm_debug' );
