@@ -1,8 +1,8 @@
 === Specific Content For Mobile - Customize the mobile version without redirections ===
 Contributors: giuse
 Requires at least: 4.6
-Tested up to: 6.6
-Stable tag: 0.2.5
+Tested up to: 6.7
+Stable tag: 0.3.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -198,6 +198,9 @@ If you are a PRO user, and you have issues, don't hesitate to open a ticket on t
 
 
 == Changelog ==
+
+= 0.3.0 =
+* Fix: Mobile version not redirecting to desktop version on desktop.
 
 = 0.2.5 =
 * Fix: WooCommerce actions not working.
