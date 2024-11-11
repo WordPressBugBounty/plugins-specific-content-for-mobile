@@ -9,7 +9,7 @@ $post_types = get_post_types();
 ?>
 <h2 style="margin-top:32px">
 	<i class="dashicons-smartphone dashicons"></i>
-	<?php printf( esc_html__( 'Specific Content For Mobile v%s','specific-content-for-mobile' ),EOS_SCFM_PLUGIN_VERSION ); ?>
+	<?php printf( esc_html__( 'Specific Content For Mobile v%s','specific-content-for-mobile' ), esc_html( EOS_SCFM_PLUGIN_VERSION ) ); ?>
 </h2>
 <section style="margin-top:64px">
 	<h3><span class="dashicons dashicons-update-alt"></span><?php esc_html_e( 'Main Settings','specific-content-for-mobile' ); ?></h3>
@@ -47,7 +47,7 @@ $post_types = get_post_types();
 				if( defined( 'EOS_DP_PLUGIN_BASE_NAME' ) ){
 				?>
 				<div>
-					<a class="button" href="<?php echo admin_url( 'admin.php?page=eos_dp_mobile' ); ?>"><?php esc_html_e( 'Select active plugins on mobile with FDP','specific-content-for-mobile' ); ?></a>
+					<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=eos_dp_mobile' ) ); ?>"><?php esc_html_e( 'Select active plugins on mobile with FDP','specific-content-for-mobile' ); ?></a>
 				</div>
 		<?php } } } ?>
 		<div style="margin-top:64px">

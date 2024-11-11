@@ -34,7 +34,7 @@ function eos_scfm_suggest_page(){
 	else {
 			$results = 'No results';
 	}
-	echo join( "\n",$results );
+	echo join( "\n", wp_kses_post( $results ) );
 	wp_die();
 }
 
