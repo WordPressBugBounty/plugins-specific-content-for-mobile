@@ -1,7 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 add_action( 'wp_ajax_eos_scfm_suggest_page','eos_scfm_suggest_page' );
 //Suggest page to the input field
@@ -34,7 +32,7 @@ function eos_scfm_suggest_page(){
 	else {
 			$results = 'No results';
 	}
-	echo join( "\n", wp_kses_post( $results ) );
+	echo join( "\n",  $results ); //phpcs:ignore WordPress.Security.EscapeOutput -- The escaping was already applied while filling $results.
 	wp_die();
 }
 

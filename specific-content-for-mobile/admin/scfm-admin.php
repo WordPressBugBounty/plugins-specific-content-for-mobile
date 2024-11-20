@@ -288,10 +288,10 @@ function eos_scfm_metabox_callback( $post ){
 	if( $desktop_id > 0 ){
 		// It's a mobile version.
 		$selection_desktop = '<input type="text" class="eos-scfm-suggest-page" value="'.esc_attr( get_the_title( $desktop_id ) ).'" />';
-		$selection_desktop .= '<input type="hidden" name="eos_scfm_desktop_post_id" id="eos_scfm_desktop_post_id" class="eos-scfm-suggest-page-id" value="'.esc_attr( $desktop_id ).'" placeholder="'.__( 'Start typing...','specific-content-for-mobile' ).'" />';
+		$selection_desktop .= '<input type="hidden" name="eos_scfm_desktop_post_id" id="eos_scfm_desktop_post_id" class="eos-scfm-suggest-page-id" value="'.esc_attr( $desktop_id ).'" placeholder="'.esc_attr__( 'Start typing...','specific-content-for-mobile' ).'" />';
 		?><p>
 		<span class="dashicons dashicons-laptop scfm-meta-desktop"></span>
-		<?php printf( esc_html__( 'Related desktop version %s','specific-content-for-mobile' ), esc_html( $selection_desktop ) ); ?></p>
+		<?php printf( esc_html__( 'Related desktop version %s','specific-content-for-mobile' ), $selection_desktop ); //phpcs:ignore WordPress.Security.EscapeOutput -- The escaping was already applied while filling $selection_desktop. ?></p>
 		<?php
 		eos_scfm_plugins_on_mobile_warning();
 		return;
@@ -299,13 +299,13 @@ function eos_scfm_metabox_callback( $post ){
 	else{
 		$mobile_id = eos_scfm_related_mobile_id( $post->ID );
 		$mobile_title = $mobile_id > 0 ? get_the_title( $mobile_id ) : '';
-		$selection_mobile = '<input type="text" class="eos-scfm-suggest-page" value="'.esc_attr( $mobile_title ).'" placeholder="'.__( 'Start typing...','specific-content-for-mobile' ).'" />';
+		$selection_mobile = '<input type="text" class="eos-scfm-suggest-page" value="'.esc_attr( $mobile_title ).'" placeholder="'.esc_attr__( 'Start typing...','specific-content-for-mobile' ).'" />';
 		$selection_mobile .= '<input type="hidden" name="eos_scfm_mobile_post_id" id="eos_scfm_mobile_post_id" class="eos-scfm-suggest-page-id" value="'.esc_attr( $mobile_id ).'"/>';
 		if( $mobile_id > 0 ){
 			// It's a desktop version that has a mmobile version.
 			?><p>
 			<span class="dashicons dashicons-smartphone scfm-meta-mobile"></span>
-			<?php printf( esc_html__( 'Related mobile version: %s','specific-content-for-mobile' ), esc_html( $selection_mobile ) ); ?></p>
+			<?php printf( esc_html__( 'Related mobile version: %s','specific-content-for-mobile' ), $selection_mobile ); //phpcs:ignore WordPress.Security.EscapeOutput -- The escaping was already applied while filling $selection_mobile. ?></p>
 			<?php
 		}
 	}
