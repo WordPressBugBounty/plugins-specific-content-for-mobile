@@ -510,32 +510,7 @@ add_action( 'admin_notices',function() {
 		wp_nonce_field( 'scfm_dismiss_offer_nonce','scfm_dismiss_offer_nonce' );
 	?>
 	<style id="scfm-offer-css">
-	.gold span{
-		background: linear-gradient(to bottom, #DCB97A 27%, #bfa068 40%, #977a46 78%); 
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		color: #fff;
-		position: relative;
-		text-transform: uppercase;	
-		margin: 0;
-		font-weight: 900;
-		font-size:1rem;
-		letter-spacing:1.5px;
-	}
-
-	.gold span::after {
-		background: none;
-		content: attr(data-heading) / "";
-		left: 0;
-		top: 0;
-		z-index: -1;
-		position: absolute;
-		text-shadow: 
-			-1px 0 1px #c6bb9f, 
-			0 1px 1px #c6bb9f, 
-			5px 5px 10px rgba(0, 0, 0, 0.4),
-			-5px -5px 10px rgba(0, 0, 0, 0.4);
-	}
+	#eos_scfm_dismiss_offer p,#eos_scfm_dismiss_offer span{color:#fff !important}
 	#eos_scfm_dismiss_offer .notice-dismiss{
 		width: 40px;
     	height: 35px;
@@ -557,9 +532,9 @@ add_action( 'admin_notices',function() {
 	}
 	</style>
 	<div id="eos_scfm_dismiss_offer" class="gold notice notice-error is-dismissible" style="background:#000;border-bottom-color:transparent !important;border-top-color:transparent !important;border-left-color:transparent !important;border-right-color:transparent !important;padding:20px">
-		<p><span>Get a Lifetime License for the cost of just 1 Year! Why pay every year? Grab this unbeatable deal before it’s gone—only until November 27<sup>th</sup>!</span></p>
-		<p class="coupon-paragraph" style="margin-top:20px"><span>Be one of the first 100 and use code</span> <strong style="color:#fff" >mobilemagic45</strong> <span>to snag an extra 45% off! This rare magic won’t last—hurry!</span></p>
-		<p style="margin-top:20px;text-align:center"><a href="https://specific-content-for-mobile.com/pricing/" target="_scfm_offer" rel="noopener" class="button" style="background:#fff;border:none;border-radius:0"><span>Get my Lifetime now</span></a></p>
+		<p><span>We don't agree with WordPress's recent actions. Something will change with Specific Content For Mobile.</span></p>
+		<p class="coupon-paragraph" style="margin-top:20px"><span>If you want to be updated subscribe to our newsletter. You will find the opt-in in the footer of our <a href="https://specific-content-for-mobile.com" rel="noopener" target="_blank">website</a></span></p>
+		<p class="coupon-paragraph" style="margin-top:20px"><span>After closing this notice, we will not be able to contact you if you aren't subscribed.</span></p>
 	</div>
 	<script id="scfm-offer-js">
 	document.getElementById("eos_scfm_dismiss_offer").addEventListener("click",function(e){eos_scfm_dismiss_notice(e,"eos_scfm_dismiss_offer","scfm_dismiss_offer_nonce")});

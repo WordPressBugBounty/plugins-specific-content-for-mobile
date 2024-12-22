@@ -2,7 +2,7 @@
 Contributors: giuse
 Requires at least: 4.6
 Tested up to: 6.7
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -198,6 +198,9 @@ If you are a PRO user, and you have issues, don't hesitate to open a ticket on t
 
 
 == Changelog ==
+
+= 0.5.1 =
+* Fix: Conflict with the Elementor editing page
 
 = 0.5.0 =
 * Fix: Edit mobile and desktop version in the single page editing screen
