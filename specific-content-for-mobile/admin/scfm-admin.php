@@ -505,7 +505,7 @@ add_action( 'admin_notices',function() {
 	}
 	</script>
 	<?php
-	$offer = get_user_meta( get_current_user_id(), 'scfm_offer', false );
+	$offer = true || get_user_meta( get_current_user_id(), 'scfm_offer', false ); // we don't show any notice.
 	if( ! $offer && ( ! defined( 'SCFM_OFFER_NOTICE' ) || false !== SCFM_OFFER_NOTICE ) ) {
 		wp_nonce_field( 'scfm_dismiss_offer_nonce','scfm_dismiss_offer_nonce' );
 	?>

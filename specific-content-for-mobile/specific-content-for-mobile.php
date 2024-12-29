@@ -7,7 +7,7 @@ Author URI: https://josemortellaro.com/
 Plugin URI: https://specific-content-for-mobile.com/
 Text Domain: specific-content-for-mobile
 Domain Path: /languages/
-Version: 0.5.1
+Version: 0.5.2
 */
 /*  This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 // Definitions.
 define( 'EOS_SCFM_PLUGIN_DIR', untrailingslashit( dirname( __FILE__ ) ) );
 define( 'EOS_SCFM_PLUGIN_URL', untrailingslashit( plugins_url( '', __FILE__ ) ) );
-define( 'EOS_SCFM_PLUGIN_VERSION', '0.5.1' );
+define( 'EOS_SCFM_PLUGIN_VERSION', '0.5.2' );
 define( 'EOS_SCFM_PLUGIN_BASE_NAME', untrailingslashit( plugin_basename( __FILE__ ) ) );
 
 if( isset( $_GET['scfm-mobile'] ) ) {
