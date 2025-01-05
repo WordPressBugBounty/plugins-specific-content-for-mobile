@@ -7,7 +7,7 @@ Author URI: https://josemortellaro.com/
 Plugin URI: https://specific-content-for-mobile.com/
 Text Domain: specific-content-for-mobile
 Domain Path: /languages/
-Version: 0.5.2
+Version: 0.5.3
 */
 /*  This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -186,6 +186,20 @@ add_action( 'wp_footer',function(){
 	$arr = eos_scfm_data_array();
 	?>
 	<script id="scfm-js">var scfm = <?php echo wp_json_encode( $arr ); ?></script>
+	<?php
+} );
+
+add_action( 'wp_head',function(){
+	?>
+	<script id="scfm-url-js">
+	if (window.location.search.includes('scfm-mobile=1')) {
+		const url = new URL(window.location.href);
+		const searchParams = url.searchParams;
+		searchParams.delete('scfm-mobile');
+		const newUrl = url.origin + url.pathname + (searchParams.toString() ? "?" + searchParams.toString() : "") + url.hash;
+		window.history.replaceState(null, "", newUrl);
+	}
+	</script>
 	<?php
 } );
 
@@ -516,7 +530,7 @@ add_filter( 'mod_rewrite_rules', function( $rewrite_rules ) {
 		return $rewrite_rules;
 	}
 	$scfm_rules = '';
-	if( false === strpos( $scfm_rules, 'Specific Content For Mobile' ) ) {
+	if( false === strpos( $rewrite_rules, 'Specific Content For Mobile' ) && apply_filters( 'scfm_add_mobile_query_string', true ) ) {
 		$scfm_rules = "\n# BEGIN Specific Content For Mobile\n";
 		$scfm_rules .= "<IfModule mod_rewrite.c>\n";
 		$scfm_rules .= "RewriteEngine On\n";
