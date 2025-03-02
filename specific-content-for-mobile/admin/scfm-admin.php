@@ -54,6 +54,9 @@ function eos_scfm_duplicate_post_as_draft(){
 	if( 0 === $post_id ){
 		wp_die( esc_html__( 'No post for mobile has been supplied!','specific-content-for-mobile' ) );
 	}
+	if( ! current_user_can( 'edit_post', $post_id ) ) {
+		wp_die( esc_html__( 'You are not authorized to create this mobile version!','specific-content-for-mobile' ) );
+	}
 	/*
 	 * and all the original post data then
 	 */
