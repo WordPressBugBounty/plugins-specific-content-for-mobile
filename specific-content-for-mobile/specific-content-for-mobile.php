@@ -7,7 +7,7 @@ Author URI: https://josemortellaro.com/
 Plugin URI: https://specific-content-for-mobile.com/
 Text Domain: specific-content-for-mobile
 Domain Path: /languages/
-Version: 0.5.4
+Version: 0.5.5
 */
 /*  This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -551,5 +551,5 @@ add_filter( 'mod_rewrite_rules', function( $rewrite_rules ) {
 		$scfm_rules .= "</IfModule>\n";
 		$scfm_rules .= "# END Specific Content For Mobile\n\n";
 	}
-	return $scfm_rules . $rewrite_rules;
+	return $rewrite_rules . $scfm_rules;
 } );

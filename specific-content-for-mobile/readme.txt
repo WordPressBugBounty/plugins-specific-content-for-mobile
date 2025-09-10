@@ -1,8 +1,8 @@
 === Specific Content For Mobile - Customize the mobile version without redirections ===
 Contributors: giuse
 Requires at least: 4.6
-Tested up to: 6.7
-Stable tag: 0.5.4
+Tested up to: 6.8
+Stable tag: 0.5.5
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,11 @@ You consider Specific Content For Mobile like an alternative to AMP plugins.
 
 == Limitations of the free version ==
 The free version supports only the mobile version of pages and posts, no custom post types, no archives, no terms.
+
+
+= I need advanced functionality to be integrated with this plugin. =
+If you need custom functionality, I offer a development service for WordPress plugin integrations and advanced feature extensions.  
+Learn more about <a href="https://josemortellaro.com/advanced-functionality-for-wordpress/">advanced functionality for WordPress</a>.
 
 
 == Additional information ==
@@ -198,6 +203,9 @@ If you are a PRO user, and you have issues, don't hesitate to open a ticket on t
 
 
 == Changelog ==
+
+= 0.5.5 =
+* Fix: Rewrite rules moved after the WordPress rewrite rules in .htaccess
 
 = 0.5.4 =
 * Fix: Vulnerability when duplicating post for mobile version
