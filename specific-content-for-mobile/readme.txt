@@ -1,8 +1,8 @@
 === Specific Content For Mobile - Customize the mobile version without redirections ===
 Contributors: giuse
 Requires at least: 4.6
-Tested up to: 6.8
-Stable tag: 0.5.5
+Tested up to: 6.9
+Stable tag: 0.5.6
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -203,6 +203,9 @@ If you are a PRO user, and you have issues, don't hesitate to open a ticket on t
 
 
 == Changelog ==
+
+= 0.5.6 =
+* Fix: Vulnerability to SQL Injection via the eos_scfm_duplicate_post_as_draft() function (CVE-2025-11454)
 
 = 0.5.5 =
 * Fix: Rewrite rules moved after the WordPress rewrite rules in .htaccess

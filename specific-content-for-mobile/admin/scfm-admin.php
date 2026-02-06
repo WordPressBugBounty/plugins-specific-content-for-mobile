@@ -106,18 +106,37 @@ function eos_scfm_duplicate_post_as_draft(){
 			wp_set_object_terms( $new_post_id,$post_terms,$taxonomy, false );
 		}
 		/*
-		 * duplicate all post meta just in two SQL queries
+		 * duplicate all post meta
 		 */
-		$post_meta_infos = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id");
-		if ( count( $post_meta_infos)!== 0 ) {
-			$sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
-			foreach( $post_meta_infos as $meta_info ){
-				$meta_key = $meta_info->meta_key;
-				$meta_value = addslashes($meta_info->meta_value);
-				$sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
+		// 1. Sanitize input IDs.
+		$source_id      = intval( $post_id );
+		$destination_id = intval( $new_post_id );
+
+		if ( $source_id <= 0 || $destination_id <= 0 ) {
+			// If IDs are invalid after sanitization, stop execution.
+			// Replace 'return' with appropriate error handling for your context (e.g., exit or break).
+			return;
+		}
+
+		// 2. Retrieve all metadata for the source post securely.
+		// Passing an empty string for the key retrieves ALL meta data as an associative array.
+		// The meta values are stored as an array of values, even if only one exists.
+		$meta_data = get_post_meta( $source_id );
+
+		if ( ! empty( $meta_data ) ) {
+			// 3. Loop through the retrieved metadata and insert it into the new post.
+			foreach ( $meta_data as $meta_key => $meta_values ) {
+				// Add each individual value for the meta key.
+				foreach ( $meta_values as $meta_value ) {
+					// add_post_meta() handles all data serialization and SQL escaping internally.
+					add_post_meta(
+						$destination_id, // post_id
+						$meta_key,       // meta_key
+						$meta_value,     // meta_value (auto-serialized and escaped)
+						false            // $unique - set to false to allow duplicate meta entries
+					);
+				}
 			}
-			$sql_query.= implode(" UNION ALL ", $sql_query_sel);
-			$wpdb->query( $sql_query );
 		}
 		/*
 		 * finally, redirect to the edit post screen for the new draft
